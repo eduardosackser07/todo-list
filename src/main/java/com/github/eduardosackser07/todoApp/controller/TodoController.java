@@ -3,10 +3,11 @@ package com.github.eduardosackser07.todoApp.controller;
 import com.github.eduardosackser07.todoApp.model.ToDo;
 import com.github.eduardosackser07.todoApp.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("todo")
@@ -24,7 +25,37 @@ public class TodoController {
         return todo;
     }
 
-    public ToDo findById("{id}"){
+    @GetMapping("/{id}")
+    public ResponseEntity findById(@PathVariable Long id){
+        ToDo todo = todoService.findById(id);
 
+
+
+        if(todo == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O ToDo com ID " + id + " não foi encontrado");
+        }
+
+        return ResponseEntity.ok(todo);
     }
+
+    @GetMapping
+    public List<ToDo> findAll(){
+
+        return todoService.findAll();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity update(@PathVariable Long id, @RequestBody ToDo todo){
+
+        if(todo == null || id == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid ID or ToDo data");
+        }
+
+        todo.setId(id);
+        todoService.save(todo);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("ToDo updated");
+    }
+
 }
