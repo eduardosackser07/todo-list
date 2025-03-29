@@ -58,4 +58,10 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("ToDo updated");
     }
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        todoService.delete(id);
+
+    }
+
 }

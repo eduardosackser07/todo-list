@@ -15,7 +15,7 @@ public class ToDoService {
     private ToDoRepository toDoRepository;
 
     public ToDo save(ToDo todo) {
-        return toDoRepository.save(todo);  // Retorna o objeto salvo
+        return toDoRepository.save(todo);
     }
 
     public void delete(ToDo todo){
@@ -23,12 +23,10 @@ public class ToDoService {
     }
 
     public void update(Long id, ToDo todo){
-
         todo.setId(id);
     }
 
     public ToDo findById(Long id){
-
         Optional<ToDo> todo = toDoRepository.findById(id);
 
         return todo.orElse(null);
@@ -38,6 +36,10 @@ public class ToDoService {
         List<ToDo> list = toDoRepository.findAll();
 
         return list;
+    }
+
+    public void delete(Long id){
+        toDoRepository.deleteById(id);
     }
 
 
