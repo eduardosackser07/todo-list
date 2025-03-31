@@ -64,4 +64,10 @@ public class TodoController {
 
     }
 
+    @GetMapping(params = "completed")
+    public List<ToDo> findByCompleted(@RequestParam boolean completed){
+        return todoService.findByCompleted(completed);
+    }
+
+
 }
